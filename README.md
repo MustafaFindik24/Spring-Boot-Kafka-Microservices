@@ -1,4 +1,4 @@
-# Apache Kafka Nedir?
+# 🎯 Apache Kafka Nedir?
 
 Kafka, herşeyin veri olarak kabul edildiği bu dönemde bize verilerin yönetimini kolaylaştıran, publish-subscriber tabanlı bir dağıtık veri akışı platformudur.
 
@@ -6,7 +6,7 @@ Kafka, herşeyin veri olarak kabul edildiği bu dönemde bize verilerin yönetim
 
 Gelişmiş sistemlerin birbirleriyle yaptığı veri akışı sonucunda veri kaybının önlenmesi, verilerin en hızlı ve sistemi en az etkileyecek şekilde gönderimi konusunda Kafka bize kolaylık sağlamaktadır. Veriler diske yazılır ve kafka cluster'larda kopyası oluşturularak veri kaybının önüne geçer. Gerçek zamana yakın bir şekilde veri akışını sağlar. Ölçeklenebilir olduğundan sistemde herhangi bir kesinti yaşanmaksızın sistemlerde aksama meydana gelmez.
 
-# Kafka Terminolojileri 
+# 📌 Kafka Terminolojileri 
 
 - Publisher : Veriyi gönderen uygulamadır.
 
