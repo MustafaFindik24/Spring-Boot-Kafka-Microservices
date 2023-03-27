@@ -20,6 +20,8 @@ Gelişmiş sistemlerin birbirleriyle yaptığı veri akışı sonucunda veri kay
 
 - Partition : Veriyi tek bir yerde tutmak yerine farklı dizinlerde tutmak performans ve veri kaybının önlenmesi açısından daha verimlidir. Topicler bir veya birden fazla şekilde parçalardan (partition) oluşurlar. Bu şekilde bir topicdeki veriler birden fazla sunucuda tutulabilir.
 
+![image](https://user-images.githubusercontent.com/91599453/227864593-bae505df-8f22-41ae-abe9-1906c0996cbf.png)
+
 - Broker    : Birden fazla partitionın birlikte oluşturduğu yapıya broker denir. Her bir Kafka sunucusuna (cluster) broker adı verilir.
 
 - Cluster   : Kafka dağıtık bir sistemdir. Birden fazla sunucudan oluşur ve verileri farklı sunucularda (cluster) tutabilir. Bu sayede daha hızlı ve daha performanslı veri akışı sağlanır.
