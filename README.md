@@ -101,7 +101,18 @@ networks:
 
 * Kafkada producer ve consumer süreçlerinden bahsetmiştik. Tek bir projede bütün süreçleri kontrol etmek yerine hem producer hem de consumer için farklı projeler oluşturup microservice mimarisi mantığına göre uygulamamızı çalıştıracağız. 
 
-* İlk olarak producer-service projemizde veriyi üretip kafkaya atamak için bazı configurationlar gerekli. Bunu config package ı altında oluşturup Spring IOC containerına atamak için bean olarak belirtiyoruz.
+application.properties dosyamızda server portunu, logging için log seviyesini ve kafkanın adresini, değerini ve topic ismini belirtiyoruz.
+```properties
+server.port=2333
+
+logging.level.root= INFO
+
+mustafafindik.kafka.address = 127.0.0.1:9092
+mustafafindik.kafka.group.id = kafka-group
+mustafafindik.kafka.topic = kafka-topic
+```
+
+* İlk olarak producer-service projemizde veriyi üretip kafkaya atamak için bazı configurationlar gerekli. Bunu config package ı altında oluşturup Spring IOC containerına atamak için bean olarak belirtiyoruz. application.properties sınıfında belirttiğimiz value ları ekleyip veriyi göndermek için kafkaTemplate sınıfını, veriyi üretmek içinde producerFactory sınıfını belirtiyoruz.
 
 ```java
 @Configuration
