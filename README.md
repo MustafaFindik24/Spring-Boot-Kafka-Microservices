@@ -142,7 +142,7 @@ public class KafkaConfiguration {
     }
 }
 ```
-* Modelimizi oluşturup Kafka'ya veri gönderimini sağlamak için KafkaProducer sınıfını oluşturduk. KafkaTemplate sınıfını inject edip send() metoduyla veri gönderimi için ortam hazırlandı.
+* Modelimizi oluşturup Kafka'ya veri gönderimini sağlamak için KafkaProducer sınıfını oluşturduk. Kafka da veriler key-value prensibine göre gönderilir. UUID sınıfını kullanarak rastgele key üretmesini belirttik. Value olarak ise modelin içerisindeki entity sınıfının parametresi yazıldı. KafkaTemplate sınıfını inject edip send() metoduyla veri gönderimi için ortam hazırlandı.
 
 ```java
 @Component
