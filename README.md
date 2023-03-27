@@ -32,7 +32,7 @@ Gelişmiş sistemlerin birbirleriyle yaptığı veri akışı sonucunda veri kay
 
 # 📌 Apache Kafka ve Spring Boot
 
-🎯 producer-service
+#🎯 producer-service
 
 
 * Bir Spring Boot projesi oluşturup Kafka kullanımı için pom.xml dosyamızın içerisine Kafka dependency eklenir.
@@ -217,7 +217,7 @@ public class UserController {
 
 producer-service projemizin yaptığı işlem bu kadar. Şimdi consumer-service projemizi inceleyelim.
 
-🎯 consumer-service
+#🎯 consumer-service
 
 * Kafka'daki veriyi dinleyip gelen veriyi veritabanına kaydedeceğiz. Bunun için öncelikle bir Spring Boot projesi oluşturup ilgili dependencylerimizi pom.xml dosyamıza ekliyoruz.
 
@@ -233,16 +233,98 @@ producer-service projemizin yaptığı işlem bu kadar. Şimdi consumer-service 
 </dependency>
 ```
 
+* Postgresql bağlantısını ve gerekli Kafka bağlantılarını sağlamak için application.properties dosyamıza property eklemesi gerçekleştiriyoruz.
 
+```properties
+mustafafindik.kafka.address = 127.0.0.1:9092
+mustafafindik.kafka.group.id = kafka-group
+mustafafindik.kafka.topic = kafka-topic
 
+spring.datasource.url=jdbc:postgresql://localhost:5432/kafkapostgre
+spring.datasource.username=postgres
+spring.datasource.password=123456
+spring.datasource.hikari.auto-commit=false
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+```
 
+* Kafka'yı dinlemek ve gelen veriyi tüketmek (veritabanına kaydetmek gibi) için KafkaConfiguration sınıfı oluşturup kafkaListenerContainerFactory()
+ve consumerFactory() metotlarımızı oluşturuyoruz.
 
+```java
+@Configuration
+public class KafkaConfiguration {
 
+    @Value("${mustafafindik.kafka.address}")
+    private String kafkaAddress;
+    @Value("${mustafafindik.kafka.group.id}")
+    private String groupId;
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, User> kafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, User> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+    @Bean
+    public ConsumerFactory<String, User> consumerFactory() {
+        Map<String,Object> consumer = new HashMap<>();
+        consumer.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaAddress);
+        consumer.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        consumer.put(JsonDeserializer.VALUE_DEFAULT_TYPE, User.class);
+        consumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        return new DefaultKafkaConsumerFactory<>(consumer);
+    }
+}
+```
 
+* producer-service projemiz ile aynı olacak şekilde modelimizi oluşturup UserConsumer sınıfı içerisinde @KafkaListener ile topic ve groupId lerini belirterek Kafka'daki veriyi dinliyoruz. 
 
+```java
+@Slf4j
+@Component
+public class UserConsumer {
+    private final UserService userService;
+    public UserConsumer(UserService userService) {
+        this.userService = userService;
+    }
+    @KafkaListener(
+            topics = "${mustafafindik.kafka.topic}",
+            groupId = "${mustafafindik.kafka.group.id}")
+    public void userConsumer(User user){
+        log.info("User received from Kafka pool. Username : {} , password : {}",
+                user.getUsername(),
+                user.getPassword());
+        userService.saveUser(user);
+    }
+}
+```
 
+* Repository ve service sınıflarımızı oluşturup veritabanına Kafka'daki veriyi kayıt ediyoruz.
 
+```java
 
+@Slf4j
+@Service
+public class UserServiceImpl implements UserService{
+    private final UserRepository userRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+    @Override
+    public void saveUser(User user) {
+        User saveUser = new User();
+        saveUser.setUsername(user.getUsername());
+        saveUser.setPassword(user.getPassword());
+        userRepository.save(saveUser);
+        log.info("User saved to the database : " + saveUser.toString());
+    }
+}
+```
+
+* localhost:2333/message pathine POST isteği attığımız zaman consumer-service deki console ekranının log ekranı bu şekildedir.
+![image](https://user-images.githubusercontent.com/91599453/227889407-ac698cf3-b5cf-4152-845a-628fedba2480.png)
 
 
 
