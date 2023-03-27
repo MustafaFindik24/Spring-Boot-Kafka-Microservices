@@ -32,7 +32,7 @@ Gelişmiş sistemlerin birbirleriyle yaptığı veri akışı sonucunda veri kay
 
 # 📌 Apache Kafka ve Spring Boot
 
-# 🎯 producer-service
+🎯 producer-service
 
 
 * Bir Spring Boot projesi oluşturup Kafka kullanımı için pom.xml dosyamızın içerisine Kafka dependency eklenir.
@@ -217,7 +217,7 @@ public class UserController {
 
 producer-service projemizin yaptığı işlem bu kadar. Şimdi consumer-service projemizi inceleyelim.
 
-# 🎯 consumer-service
+🎯 consumer-service
 
 * Kafka'daki veriyi dinleyip gelen veriyi veritabanına kaydedeceğiz. Bunun için öncelikle bir Spring Boot projesi oluşturup ilgili dependencylerimizi pom.xml dosyamıza ekliyoruz.
 
