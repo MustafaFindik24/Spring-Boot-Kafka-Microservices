@@ -30,5 +30,16 @@ Gelişmiş sistemlerin birbirleriyle yaptığı veri akışı sonucunda veri kay
 
 - Zookeeper : Kafka cluster'da topic ve verilerin listesini saklayan, nodeların durumunu izleyen; uygulamaya bir broker eklendiği zaman veya çalışmadığı, bir problem oluştuğu zaman publisher (producer) ve subscriber (consumer) bilgilendiren bir servis olarak tanımlanabilir. Kafka, metadata bilgilerini saklamak için Zookeeper'ı kullanmaktadır. Bu sebeple Kafka ile kullanımı zorunludur.
 
-
 # 📌 Apache Kafka ve Spring Boot
+
+Bir Spring Boot projesi oluşturup Kafka kullanımı için pom.xml dosyamızın içerisine Kafka dependency eklenir.
+
+``` xml
+
+<dependency>
+		<groupId>org.springframework.kafka</groupId>
+		<artifactId>spring-kafka</artifactId>
+</dependency>
+
+```
+
