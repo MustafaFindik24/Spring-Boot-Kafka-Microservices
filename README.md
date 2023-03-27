@@ -117,10 +117,13 @@ mustafafindik.kafka.topic = kafka-topic
 ```java
 @Configuration
 public class KafkaConfiguration {
+
     @Value("${mustafafindik.kafka.address}")
     private String kafkaAddress;
+    
     @Value("${mustafafindik.kafka.group.id}")
     private String groupId;
+    
     @Bean
     public KafkaTemplate<String, User> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
@@ -136,8 +139,66 @@ public class KafkaConfiguration {
     }
 }
 ```
+* Modelimizi oluşturup Kafka'ya veri gönderimini sağlamak için KafkaProducer sınıfını oluşturduk. KafkaTemplate sınıfını inject edip send() metoduyla veri gönderimi için ortam hazırlandı.
 
+```java
+@Component
+public class KafkaProducer {
+    
+    private final KafkaTemplate<String, User> kafkaTemplate;
 
+    public KafkaProducer(KafkaTemplate<String, User> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+    
+    public void userProducer(User user){
+        kafkaTemplate.send("${mustafafindik.kafka.topic}", UUID.randomUUID().toString(),user);
+    }
+}
+```
+* Service sınıfımızı oluşturup KafkaProducer sınıfını inject edip Kafka'ya veri gönderimi için metot oluşturduk ve KafkaProducer sınıfındaki metodu kullandık.
+
+```java
+@Service
+public class UserServiceImpl implements UserService{
+    private final KafkaProducer kafkaProducer;
+
+    public UserServiceImpl(KafkaProducer kafkaProducer) {
+        this.kafkaProducer = kafkaProducer;
+    }
+    @Override
+    public void createUser(User user) {
+        User saveUser = new User();
+        saveUser.setUsername(saveUser.getUsername());
+        saveUser.setPassword(saveUser.getPassword());
+        kafkaProducer.userProducer(saveUser);
+    }
+}
+```
+
+* Controller sınıfında post isteği için metot oluşturduk ve logunu görebilmek için console ekranına info bastırdık.
+
+```java
+@Slf4j
+@RestController
+@RequestMapping("/message")
+public class UserController {
+
+    @Value("${mustafafindik.kafka.topic}")
+    private String topic;
+    private final KafkaTemplate<String, User> kafkaTemplate;
+
+    public UserController(KafkaTemplate<String, User> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+    
+    @PostMapping
+    public void sendMessage(@RequestBody User user){
+        kafkaTemplate.send(topic, UUID.randomUUID().toString(), user);
+        log.info("User class send to the queue : " + user);
+    }
+}
+```
 
 
 
