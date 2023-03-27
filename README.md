@@ -200,7 +200,19 @@ public class UserController {
 }
 ```
 
+* localhost:2333/message pathine JSON verisi olarak post isteği attıktan sonra console ekranında log görülebilir.
 
+![image](https://user-images.githubusercontent.com/91599453/227879283-fc652d82-fd18-4f16-86e0-0736a3658b98.png)
+
+* Docker-compose dosyamızı çalıştırmıştık. http://localhost:9000/ giderek ayağa kaldırdığımız Kafdrop uygulamasını ve aşağıda oluşturduğumuz topic i görebiliriz.
+
+![image](https://user-images.githubusercontent.com/91599453/227879727-8d6305d7-eb8a-46d2-91a2-b04a2b51e7b6.png)
+
+* İlgili topic e girip mesajları listele dedikten sonra attığımız post isteklerini bazı metadatalarında belirtilip listelendiğini görebiliriz.
+
+![image](https://user-images.githubusercontent.com/91599453/227880270-406e8995-e1c4-4ffa-9cac-0893854a22d6.png)
+
+* producer-service projemizin yaptığı işlem bu kadar. Şimdi consumer-service projemizi inceleyelim.
 
 
 
