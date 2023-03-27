@@ -30,7 +30,7 @@ Gelişmiş sistemlerin birbirleriyle yaptığı veri akışı sonucunda veri kay
 
 - Zookeeper : Kafka cluster'da topic ve verilerin listesini saklayan, nodeların durumunu izleyen; uygulamaya bir broker eklendiği zaman veya çalışmadığı, bir problem oluştuğu zaman publisher (producer) ve subscriber (consumer) bilgilendiren bir servis olarak tanımlanabilir. Kafka, metadata bilgilerini saklamak için Zookeeper'ı kullanmaktadır. Bu sebeple Kafka ile kullanımı zorunludur.
 
-## 📌 Apache Kafka ve Spring Boot
+# 📌 Apache Kafka ve Spring Boot
 
 🎯 producer-service
 
@@ -219,7 +219,19 @@ producer-service projemizin yaptığı işlem bu kadar. Şimdi consumer-service 
 
 🎯 consumer-service
 
+* Kafka'daki veriyi dinleyip gelen veriyi veritabanına kaydedeceğiz. Bunun için öncelikle bir Spring Boot projesi oluşturup ilgili dependencylerimizi pom.xml dosyamıza ekliyoruz.
 
+```xml
+<dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>postgresql</artifactId>
+	<scope>runtime</scope>
+</dependency>
+<dependency>
+	<groupId>org.springframework.kafka</groupId>
+	<artifactId>spring-kafka</artifactId>
+</dependency>
+```
 
 
 
