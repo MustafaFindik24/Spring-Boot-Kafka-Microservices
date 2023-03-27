@@ -231,6 +231,10 @@ producer-service projemizin yaptığı işlem bu kadar. Şimdi consumer-service 
 	<groupId>org.springframework.kafka</groupId>
 	<artifactId>spring-kafka</artifactId>
 </dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
 ```
 
 * Postgresql bağlantısını ve gerekli Kafka bağlantılarını sağlamak için application.properties dosyamıza property eklemesi gerçekleştiriyoruz.
@@ -326,6 +330,9 @@ public class UserServiceImpl implements UserService{
 * localhost:2333/message pathine POST isteği attığımız zaman consumer-service deki console ekranının log ekranı bu şekildedir.
 ![image](https://user-images.githubusercontent.com/91599453/227889407-ac698cf3-b5cf-4152-845a-628fedba2480.png)
 
+* pgadmine geldiğimizde ise ilgili tabloya veriyi kaydettiğini görebiliriz.
+
+![image](https://user-images.githubusercontent.com/91599453/227889952-c83296bf-6ed8-4327-b6e7-5f19c85b3454.png)
 
 
 
